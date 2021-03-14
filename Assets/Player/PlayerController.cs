@@ -13,15 +13,37 @@ public class PlayerController : MonoBehaviour
   bool goJump = false;
   bool onGround = false;
 
+  // アニメーション対応
+  Animator animator; // アニメーター
+  public string stopAnime = "PlayerStop";
+  public string moveAnime = "PlayerMove";
+  public string jumpAnime = "PlayerJump";
+  public string goalAnime = "PlayerGoal";
+  public string deadAnime = "PlayerOver";
+  string nowAnime = "";
+  string oldAnime = "";
+  public static string gameState = "playing"; // ゲームの状態
+
   // Start is called before the first frame update
   void Start()
   {
     rbody = GetComponent<Rigidbody2D>();
+    // アニメーター取得
+    animator = GetComponent<Animator>();
+    nowAnime = stopAnime;
+    oldAnime = stopAnime;
+    gameState = "playing"; // ゲーム中にする
   }
 
   // Update is called once per frame
   void Update()
   {
+    // プレイ中でない場合はキャラ移動をできなくする
+    if (gameState != "playing")
+    {
+      return;
+    }
+
     axisH = Input.GetAxisRaw("Horizontal");
     if (axisH > 0.0f)
     {
@@ -43,6 +65,12 @@ public class PlayerController : MonoBehaviour
 
   void FixedUpdate()
   {
+    // プレイ中でない場合はキャラ移動をできなくする
+    if (gameState != "playing")
+    {
+      return;
+    }
+
     // 地上判定
     // Linecast: レイヤーとの接触判定に使用
     onGround = Physics2D.Linecast(transform.position, transform.position - (transform.up * 0.1f), groundLayer);
@@ -67,10 +95,73 @@ public class PlayerController : MonoBehaviour
       // ジャンプフラグをおろす
       goJump = false;
     }
+    if (onGround)
+    {
+      // 地面の上
+      if (axisH == 0)
+      {
+        nowAnime = stopAnime; // 停止
+      }
+      else
+      {
+        nowAnime = moveAnime; // 移動
+      }
+    }
+    else
+    {
+      // 空中
+      nowAnime = jumpAnime;
+    }
+    // 状態が変化したらアニメーション再生
+    if (nowAnime != oldAnime)
+    {
+      oldAnime = nowAnime;
+      animator.Play(nowAnime); // アニメーション再生
+    }
   }
   public void Jump()
   {
     goJump = true;
     Debug.Log("ジャンプボタン押した！");
+  }
+
+  // 接触開始
+  void OnTriggerEnter2D(Collider2D collision)
+  {
+    if (collision.gameObject.tag == "Goal")
+    {
+      Goal();
+    }
+    else if (collision.gameObject.tag == "Dead")
+    {
+      GameOver();
+    }
+  }
+
+  public void Goal()
+  {
+    animator.Play(goalAnime);
+    gameState = "gameclear";
+    GameStop();
+  }
+  public void GameOver()
+  {
+    animator.Play(deadAnime);
+
+    gameState = "gameover";
+    GameStop();
+    // ================
+    // ゲームオーバー演出
+    // ================
+    // プレイヤーの当たりを消す
+    GetComponent<CapsuleCollider2D>().enabled = false;
+    // プレイヤーを少し上に跳ね上げる演出
+    rbody.AddForce(new Vector2(0, 5), ForceMode2D.Impulse);
+  }
+
+  void GameStop()
+  {
+    Rigidbody2D rbody = GetComponent<Rigidbody2D>();
+    rbody.velocity = new Vector2(0, 0);
   }
 }
