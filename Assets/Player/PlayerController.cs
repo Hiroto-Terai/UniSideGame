@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
   public string deadAnime = "PlayerOver";
   string nowAnime = "";
   string oldAnime = "";
+  public static string gameState = "playing"; // ゲームの状態
 
   // Start is called before the first frame update
   void Start()
@@ -31,11 +32,18 @@ public class PlayerController : MonoBehaviour
     animator = GetComponent<Animator>();
     nowAnime = stopAnime;
     oldAnime = stopAnime;
+    gameState = "playing"; // ゲーム中にする
   }
 
   // Update is called once per frame
   void Update()
   {
+    // プレイ中でない場合はキャラ移動をできなくする
+    if (gameState != "playing")
+    {
+      return;
+    }
+
     axisH = Input.GetAxisRaw("Horizontal");
     if (axisH > 0.0f)
     {
@@ -57,6 +65,12 @@ public class PlayerController : MonoBehaviour
 
   void FixedUpdate()
   {
+    // プレイ中でない場合はキャラ移動をできなくする
+    if (gameState != "playing")
+    {
+      return;
+    }
+
     // 地上判定
     // Linecast: レイヤーとの接触判定に使用
     onGround = Physics2D.Linecast(transform.position, transform.position - (transform.up * 0.1f), groundLayer);
@@ -112,13 +126,13 @@ public class PlayerController : MonoBehaviour
   }
 
   // 接触開始
-  void OnTriggerEnter2D(Collider collosion)
+  void OnTriggerEnter2D(Collider2D collision)
   {
-    if (collosion.gameObject.tag == "Goal")
+    if (collision.gameObject.tag == "Goal")
     {
       Goal();
     }
-    else if (collosion.gameObject.tag == "Dead")
+    else if (collision.gameObject.tag == "Dead")
     {
       GameOver();
     }
@@ -127,9 +141,27 @@ public class PlayerController : MonoBehaviour
   public void Goal()
   {
     animator.Play(goalAnime);
+    gameState = "gameclear";
+    GameStop();
   }
   public void GameOver()
   {
     animator.Play(deadAnime);
+
+    gameState = "gameover";
+    GameStop();
+    // ================
+    // ゲームオーバー演出
+    // ================
+    // プレイヤーの当たりを消す
+    GetComponent<CapsuleCollider2D>().enabled = false;
+    // プレイヤーを少し上に跳ね上げる演出
+    rbody.AddForce(new Vector2(0, 5), ForceMode2D.Impulse);
+  }
+
+  void GameStop()
+  {
+    Rigidbody2D rbody = GetComponent<Rigidbody2D>();
+    rbody.velocity = new Vector2(0, 0);
   }
 }
