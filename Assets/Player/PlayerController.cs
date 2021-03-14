@@ -13,10 +13,24 @@ public class PlayerController : MonoBehaviour
   bool goJump = false;
   bool onGround = false;
 
+  // アニメーション対応
+  Animator animator; // アニメーター
+  public string stopAnime = "PlayerStop";
+  public string moveAnime = "PlayerMove";
+  public string jumpAnime = "PlayerJump";
+  public string goalAnime = "PlayerGoal";
+  public string deadAnime = "PlayerOver";
+  string nowAnime = "";
+  string oldAnime = "";
+
   // Start is called before the first frame update
   void Start()
   {
     rbody = GetComponent<Rigidbody2D>();
+    // アニメーター取得
+    animator = GetComponent<Animator>();
+    nowAnime = stopAnime;
+    oldAnime = stopAnime;
   }
 
   // Update is called once per frame
@@ -67,10 +81,55 @@ public class PlayerController : MonoBehaviour
       // ジャンプフラグをおろす
       goJump = false;
     }
+    if (onGround)
+    {
+      // 地面の上
+      if (axisH == 0)
+      {
+        nowAnime = stopAnime; // 停止
+      }
+      else
+      {
+        nowAnime = moveAnime; // 移動
+      }
+    }
+    else
+    {
+      // 空中
+      nowAnime = jumpAnime;
+    }
+    // 状態が変化したらアニメーション再生
+    if (nowAnime != oldAnime)
+    {
+      oldAnime = nowAnime;
+      animator.Play(nowAnime); // アニメーション再生
+    }
   }
   public void Jump()
   {
     goJump = true;
     Debug.Log("ジャンプボタン押した！");
+  }
+
+  // 接触開始
+  void OnTriggerEnter2D(Collider collosion)
+  {
+    if (collosion.gameObject.tag == "Goal")
+    {
+      Goal();
+    }
+    else if (collosion.gameObject.tag == "Dead")
+    {
+      GameOver();
+    }
+  }
+
+  public void Goal()
+  {
+    animator.Play(goalAnime);
+  }
+  public void GameOver()
+  {
+    animator.Play(deadAnime);
   }
 }
