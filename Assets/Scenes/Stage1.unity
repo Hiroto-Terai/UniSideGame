@@ -427,6 +427,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc440d43ced6147f5accbe55757b7fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainImage: {fileID: 4149099}
+  gameOverSpr: {fileID: 21300000, guid: ba1d44608d0f5476fbdcb19e2f6dbcf1, type: 3}
+  gameClearSpr: {fileID: 21300000, guid: 1522d73897efe431881be091dddd08ea, type: 3}
+  panel: {fileID: 1424400315}
+  restartButton: {fileID: 419156121}
+  nextButton: {fileID: 100525086}
 --- !u!1 &419156121
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,7 +944,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -214}
+  m_AnchoredPosition: {x: 0, y: -213.99997}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1424400317
