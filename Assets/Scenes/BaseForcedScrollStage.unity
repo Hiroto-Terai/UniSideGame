@@ -420,6 +420,11 @@ PrefabInstance:
       propertyPath: isCountDown
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 521791357826121584, guid: 2c94e6b3c73ea4c588b276cb3d7359c9,
+        type: 3}
+      propertyPath: gameTime
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 5038385113821110555, guid: 2c94e6b3c73ea4c588b276cb3d7359c9,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

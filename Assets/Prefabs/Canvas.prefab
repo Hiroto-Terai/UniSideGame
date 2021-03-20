@@ -345,6 +345,8 @@ MonoBehaviour:
   panel: {fileID: 5038385114962275899}
   restartButton: {fileID: 5038385113821110553}
   nextButton: {fileID: 5038385114173298078}
+  timeBar: {fileID: 5950269247213408795}
+  timeText: {fileID: 1921575434055683825}
 --- !u!114 &521791357826121584
 MonoBehaviour:
   m_ObjectHideFlags: 0
