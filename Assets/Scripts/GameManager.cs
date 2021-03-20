@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
       mainImage.GetComponent<Image>().sprite = gameClearSpr;  // 画像設定
       PlayerController.gameState = "gameend";
     }
-    else if (PlayerController.gameState == "gameclear")
+    else if (PlayerController.gameState == "gameover")
     {
       // ゲームオーバー
       mainImage.SetActive(true); // 画像を表示
@@ -52,10 +52,9 @@ public class GameManager : MonoBehaviour
     {
       // ゲーム中
     }
-
-    void InactiveImage()
-    {
-      mainImage.SetActive(false);
-    }
+  }
+  void InactiveImage()
+  {
+    mainImage.SetActive(false);
   }
 }
