@@ -415,6 +415,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 521791357826121584, guid: 2c94e6b3c73ea4c588b276cb3d7359c9,
+        type: 3}
+      propertyPath: isCountDown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 521791357826121584, guid: 2c94e6b3c73ea4c588b276cb3d7359c9,
+        type: 3}
+      propertyPath: gameTime
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 5038385113821110555, guid: 2c94e6b3c73ea4c588b276cb3d7359c9,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -548,7 +558,12 @@ PrefabInstance:
     - target: {fileID: 5038385114962275900, guid: 2c94e6b3c73ea4c588b276cb3d7359c9,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -213.99997
+      value: -214
+      objectReference: {fileID: 0}
+    - target: {fileID: 6360456515553549114, guid: 2c94e6b3c73ea4c588b276cb3d7359c9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -73.79999
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c94e6b3c73ea4c588b276cb3d7359c9, type: 3}
