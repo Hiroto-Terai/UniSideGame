@@ -47,12 +47,10 @@ public class PlayerController : MonoBehaviour
     axisH = Input.GetAxisRaw("Horizontal");
     if (axisH > 0.0f)
     {
-      Debug.Log("右移動");
       transform.localScale = new Vector2(1, 1);
     }
     else if (axisH < 0.0f)
     {
-      Debug.Log("左移動");
       transform.localScale = new Vector2(-1, 1); // 左右反転
     }
 
